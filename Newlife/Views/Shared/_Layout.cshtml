@@ -1,0 +1,442 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+
+    <title>@ViewBag.Title - Newlife</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- bootstrap css -->
+    <link rel="stylesheet" href="~/Content/MainSite/css/bootstrap.min.css">
+    <!-- style css -->
+    <link rel="stylesheet" href="~/Content/MainSite/css/style.css">
+    <!-- Responsive-->
+    <link rel="stylesheet" href="~/Content/MainSite/css/responsive.css">
+    <!-- fevicon -->
+    <link rel="icon" href="~/Content/doclab.ico" type="image/gif" />
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="~/Content/MainSite/css/jquery.mCustomScrollbar.min.css">
+    <!-- Tweaks for older IEs-->
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <!-- owl stylesheets -->
+    <link rel="stylesheet" href="~/Content/MainSite/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/Content/MainSite/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
+    <script src="~/Scripts/alertify.min.js"></script>    
+    <link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+
+
+    <style>
+        #chat-window {
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 400px;
+            background-color: white;
+            border: 1px solid black;
+        }
+
+        #chat-history {
+            height: 320px;
+            overflow-y: scroll;
+            padding: 10px;
+        }
+
+        #chat-form {
+            display: flex;
+            align-items: center;
+            height: 80px;
+            padding: 10px;
+        }
+
+        #chat-input {
+            flex-grow: 1;
+            margin-right: 10px;
+        }
+    </style>
+
+    @Scripts.Render("~/bundles/modernizr")
+
+</head>
+<body>
+    @if (TempData["Message"] != null)
+    {
+        if (TempData["Type"].Equals("success"))
+        {
+            <script>
+        alertify.success('<span style="color: white;">@TempData["Message"]</span>');
+            </script>
+        }
+        else if (TempData["Type"].Equals("error"))
+        {
+            <script>
+            alertify.error('<span style="color: white;">@TempData["Message"]</span>');
+            </script>
+        }
+    }
+    <div class="header_section">
+        <nav class="destop_header navbar navbar-expand-lg navbar-light bg-light">
+            <div class="logo"></div>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index", "Home")">Home</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Doctor", "Home")">Doctor</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Department", "Home")">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="logo_main" href="@Url.Action("Index", "Home")"><img src="~/Content/MainSite/images/logo.png"></a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Service", "Home")">Service</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Contact", "Home")">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="btn bg-info" style="margin-top:55px;" id="chatbtn">Ask AI</button>
+                    </li>
+
+                    @{
+                        var usersInCookie = Request.Cookies["UserInfo"];
+                        if (usersInCookie != null)
+                        {
+
+                            <li class="nav-item active">
+                                <h5 class="nav-link">@usersInCookie["Email"].ToString()</h5>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="@Url.Action("Logout", "GoogleAuthentication")">Logout</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item active">
+                                <a class="nav-link" href="@Url.Action("SignUp", "GoogleAuthentication")">Signup with <i class="fa fa-google" aria-hidden="true"></i></a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+        </nav>
+        <nav class="mobile_header navbar navbar-expand-lg navbar-light bg-light">
+            <div class="logo"><a href="index.html"><img src="~/Content/MainSite/images/logo.png"></a></div>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent2" aria-controls="navbarSupportedContent2" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent2">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Index","Home")">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("About","Home")">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Doctor","Home")">Doctor</a>
+                    </li>                   
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Department","Home")">Departments</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Service","Home")">Service</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="@Url.Action("Contact","Home")">Contact</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="@Url.Action("SignUp","GoogleAuthentication")">Signup with <i class="fa fa-google" aria-hidden="true"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    @RenderBody()
+
+    <!-- footer section start -->
+    <!-- info section -->
+    <div class="info_section layout_padding">
+        <div class="container ">
+            <div class="info_content">
+                <div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="d-flex">
+                                <h5>
+                                    Medical Care
+                                </h5>
+                            </div>
+                            <div class="d-flex ">
+                                <ul>
+                                    <li>
+                                        <a href="">
+                                            About Us
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            About services
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            About Departments
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Services
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Contact Us
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="ml-3 ml-md-5">
+                                    <li>
+                                        <a href="">
+                                            Cancer Oncology
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Dental Surgery
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Diagnose & Research
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Drug / Medicines
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex">
+                                <h5>
+                                    The Services
+                                </h5>
+                            </div>
+                            <div class="d-flex ">
+                                <ul>
+                                    <li>
+                                        <a href="">
+                                            About Us
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            About services
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            About Departments
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Services
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Contact Us
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="ml-3 ml-md-5">
+                                    <li>
+                                        <a href="">
+                                            Cancer Oncology
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Dental Surgery
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Diagnose & Research
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Drug / Medicines
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex">
+                                <h5>
+                                    Departments
+                                </h5>
+                            </div>
+                            <div class="d-flex ">
+                                <ul>
+                                    <li>
+                                        <a href="">
+                                            About Us
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            About services
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            About Departments
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Services
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Contact Us
+                                        </a>
+                                    </li>
+                                </ul>
+                                <ul class="ml-3 ml-md-5">
+                                    <li>
+                                        <a href="">
+                                            Cancer Oncology
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Dental Surgery
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Diagnose & Research
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="">
+                                            Drug / Medicines
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center align-items-lg-baseline">
+                    <div class="social-box">
+                        <a href="">
+                            <img src="~/Content/MainSite/images/fb-icon.png" alt="" />
+                        </a>
+
+                        <a href="">
+                            <img src="~/Content/MainSite/images/twitter-icon.png" alt="" />
+                        </a>
+                        <a href="">
+                            <img src="~/Content/MainSite/images/linkedin-icon.png" alt="" />
+                        </a>
+                        <a href="">
+                            <img src="~/Content/MainSite/images/instagram-icon.png" alt="" />
+                        </a>
+                    </div>
+                    <div class="form_container mt-5">
+                        <form action="">
+                            <label for="subscribeMail">
+                                Newsletter
+                            </label>
+                            <input type="email"
+                                   placeholder="Enter Your email"
+                                   id="subscribeMail" />
+                            <button type="submit">
+                                Subscribe
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- HTML code for the chat window -->
+    <div id="chat-window">
+        <div id="chat-history"></div>
+        <form id="chat-form">
+            <input type="text" id="chat-input" placeholder="Type a message...">
+            <button type="submit" class="btn-success">Send</button>
+            <button id="closwindow" class="btn-danger">Close</button>
+        </form>
+    </div>
+    <!-- end info section -->
+    <!-- footer section end -->
+    <!-- copyright section start -->
+    <div class="copyright_section">
+        <div class="container">
+            <p class="copyright">2020 All Rights Reserved. Design by Rudro</p>
+        </div>
+    </div>
+    <!-- copyright section end -->
+    <!-- Javascript files-->
+    <script src="~/Content/MainSite/js/jquery.min.js"></script>
+    <script src="~/Content/MainSite/js/popper.min.js"></script>
+    <script src="~/Content/MainSite/js/bootstrap.bundle.min.js"></script>
+    <script src="~/Content/MainSite/js/jquery-3.0.0.min.js"></script>
+    <script src="~/Content/MainSite/js/plugin.js"></script>
+    <!-- sidebar -->
+    <script src="~/Content/MainSite/js/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="~/Content/MainSite/js/custom.js"></script>
+    <!-- javascript -->
+    <script src="~/Content/MainSite/js/owl.carousel.js"></script>
+    <script src="https:cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+
+    <script>
+        $(function () {
+            $('#chat-window').hide();
+            $('#chatbtn').click(function () {
+                // Toggle the visibility of the chat window
+                $('#chat-window').show();
+            });
+            $('#closwindow').click(function () {
+                $('#chat-window').hide();
+            });
+            $('#chat-form').submit(function (e) {
+                e.preventDefault();
+                var inputText = $('#chat-input').val();
+
+                // Call your ASP.NET MVC action method to send the inputText to ChatGPT and get a response
+                $.get('/Home/GetChatGPTResponse', { inputText: inputText }, function (response) {
+                    // Append the response to the chat history
+                    $('#chat-history').append('<div><strong>You:</strong> ' + inputText + '</div>');
+                    $('#chat-history').append('<div><strong>ChatGPT:</strong> ' + response + '</div>');
+                    $('#chat-input').val('');
+                });
+            });
+        });
+    </script>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

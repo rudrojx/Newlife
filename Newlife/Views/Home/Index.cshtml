@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+
+<!-- banner section start -->
+<div class="banner_section">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 padding_0">
+                <div id="main_slider" class="carousel slide" data-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="banner_bg">
+                                <div class="banner_taital_main">
+                                    <h1 class="banner_taital">
+                                        Providing appropritate<br>
+                                        health care for
+                                        <br>seniors and  childrens
+                                    </h1>
+                                    <p class="long_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum</p>
+                                    <div class="btn_main">
+                                        <div class="about_us"><a href="#">About Us</a></div>
+                                        <div class="about_bt"><a href="#">Get Appointment</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="banner_bg">
+                                <div class="banner_taital_main">
+                                    <h1 class="banner_taital">
+                                        Providing appropritate<br>
+                                        health care for
+                                        <br>seniors and  childrens
+                                    </h1>
+                                    <p class="long_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum</p>
+                                    <div class="btn_main">
+                                        <div class="about_us"><a href="#">About Us</a></div>
+                                        <div class="about_bt"><a href="#">Get Appointment</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="banner_bg">
+                                <div class="banner_taital_main">
+                                    <h1 class="banner_taital">
+                                        Providing appropritate<br>
+                                        health care for
+                                        <br>seniors and  childrens
+                                    </h1>
+                                    <p class="long_text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum</p>
+                                    <div class="btn_main">
+                                        <div class="about_us"><a href="#">About Us</a></div>
+                                        <div class="about_bt"><a href="#">Get Appointment</a></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <a class="carousel-control-prev" href="#main_slider" role="button" data-slide="prev">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                    <a class="carousel-control-next" href="#main_slider" role="button" data-slide="next">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-6 padding_0">
+                <div class="banner_img"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- banner section end -->
+
+
+@{
+    Html.RenderPartial("About");
+    Html.RenderPartial("Department");
+    Html.RenderPartial("Service");
+    Html.RenderPartial("Doctor");
+    Html.RenderPartial("Contact");
+}

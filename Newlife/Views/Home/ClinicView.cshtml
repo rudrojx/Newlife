@@ -1,0 +1,171 @@
+﻿@using Newlife.Models
+@model Newlife.Models.DoctorDataViewModel
+@{
+    ViewBag.Title = "ClinicView";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+</head>
+@{
+    NewlifeDBContext db = new NewlifeDBContext(); 
+    //var getdate = db.Appslotinfo.Where(x => x.DoctorID == Model.clinicinformation.DoctorID && x.ClinicName == Model.clinicinformation.ClinicName).ToList();
+
+}
+<section class="text-gray-600 body-font">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="flex flex-col text-center w-full mb-20">
+            <h2 class="text-xs text-indigo-500 tracking-widest font-medium title-font mb-1">Dr. @Model.clinicinformation.DoctorName</h2>
+            <h1 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">@Model.clinicinformation.ClinicName</h1>
+            <p class="lg:w-2/3 mx-auto leading-relaxed text-base"><b>@Model.Doctorinfo.Specialization</b></p>
+        </div>
+        <div class="flex flex-wrap">
+            <img alt="testimonial" class="w-20 h-20 mb-8 object-cover object-center rounded-full inline-block border-2 border-gray-200 bg-gray-100" src="~/@Model.Doctorinfo.ProfilePicture">
+
+            <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 ">
+                <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Clinic Timing</h2>
+                @{
+                    var getloc = Model.clinicinformation.Clinic_Timing;
+                    string[] splitloc = getloc.Split(',');
+                }
+                @for (int i = 0; i < splitloc.Length; i++)
+                {
+                    <p class="leading-relaxed mb-4" style="color:black">@splitloc[i]</p>
+                }
+            </div>
+            <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Clinic Location</h2>
+                <p class="leading-relaxed text-base mb-4" style="color:black">@Model.clinicinformation.Clinic_Address , @Model.clinicinformation.Location</p>
+            </div>
+            <div class="xl:w-1/4 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
+                <h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">About Clinic</h2>
+
+                <p class="leading-relaxed text-base mb-4" style="color:black">Fee : ₹ @Model.clinicinformation.ClinicFee at Clinic</p>
+                @if (@Model.clinicinformation.Doctor_Availability == "1")
+                {
+                    <p class="leading-relaxed text-base mb-4" style="color:black">Doctor Availability : Available</p>
+                }
+                else
+                {
+                    <p class="leading-relaxed text-base mb-4" style="color:black">Doctor Availability : Not Available</p>
+                }
+            </div>
+
+        </div>
+        <button type="button" class="btn btn-success btn-outline-success" data-toggle="modal" data-target="#exampleModal">
+            Book Appointment (No Booking Fee)
+        </button>
+    </div>
+</section>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">@Model.clinicinformation.ClinicName Appointment Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/Home/SavePatientAppointment" method="post">
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label for="patient-name" class="col-form-label">Patient Name:</label>
+                        <input type="text" class="form-control" id="PatientName" name="PatientName">
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-form-label">Email:</label>
+                        <input type="email" class="form-control" id="Email" name="Email">
+                    </div>
+                    <div class="form-group">
+                        <label for="date" class="col-form-label">Date:</label>
+                        <select class="form-control" id="Date" name="Date" onchange="updateTime()">
+                            @foreach (var item in ViewBag.getdate)
+                            {
+                                <option value="@item.Date">@item.Date</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="time" class="col-form-label">Time:</label>
+                        <select class="form-control" id="Time" name="Time">
+                            @foreach (var item in ViewBag.getdate)
+                            {
+                                <option value="@item.Time">@item.Time</option>
+                            }
+                        </select>
+                    </div>
+                    <input type="hidden" name="ClinicName" value="@Model.clinicinformation.ClinicName" />
+                    <input type="hidden" name="ClinicLocation" value="@Model.clinicinformation.Clinic_Address" />
+                    <input type="hidden" name="DoctorName" value="@Model.clinicinformation.DoctorName" />
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-success" @(ViewBag.ButtonDisabled != null && !ViewBag.ButtonDisabled ? "" : "disabled")>@ViewBag.ButtonText</button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#patient-form').submit(function (e) {
+            e.preventDefault(); // prevent the form from submitting normally
+
+            var formData = $(this).serialize(); // get the form data
+
+            $.ajax({
+                url: '@Url.Action("SavePatientAppointment", "Home")', // specify the controller action method
+                type: 'POST',
+                data: formData, // send the form data
+                success: function (result) {
+                    if (result.success) {
+                        alert('Confirmation Code is sent to your email'); // show a success message
+                    } else {
+                        alert('Error: ' + result.message); // show an error message
+                    }
+                },
+                error: function () {
+                    alert('An error occurred while booking the appointment.'); // show an error message
+                }
+            });
+        });
+    });
+</script>
+<script>
+    function updateTime() {
+        // Get the selected date
+        var selectedDate = $('#Date').val();
+
+        // Send an AJAX request to your server to get the times for the selected date
+        $.ajax({
+            url: '/Home/GetTimesForDate',
+            type: 'GET',
+            data: { date: selectedDate },
+            success: function (times) {
+                // Clear the current options in the "Time" dropdown list
+                $('#Time').empty();
+
+                // Add the new options for the selected date
+                $.each(times, function (i, time) {
+                    $('#Time').append($('<option></option>').val(time).html(time));
+                });
+            }
+        });
+    }
+</script>

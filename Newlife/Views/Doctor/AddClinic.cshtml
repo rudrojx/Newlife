@@ -1,0 +1,106 @@
+﻿@model Newlife.Models.DoctorDetails
+@{
+    ViewBag.Title = "AddClinic";
+    Layout = "~/Views/Shared/DoctorLayout.cshtml";
+}
+
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="@Url.Action("Index", "Doctor")">Home</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-validation">
+                            <form class="form-valide" action="/Doctor/AddClinic" method="post">
+
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-username">
+                                        Clinic Name <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="docname" name="ClinicName" placeholder="Enter a name..">
+                                    </div>
+                                </div>
+                                @{ 
+                                    var getloc = Model.Location;
+                                    string[] splitloc = getloc.Split(' ');
+                                }
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                        Location <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select name="Location" id="location" class="form-control"> 
+                                            @for(int i=0; i< splitloc.Length; i++)
+                                            {
+                                            <option value="@splitloc[i]">@splitloc[i]</option>
+                                            }
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-email">
+                                        Clinic Address <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-email" name="Clinic_Address" placeholder="Enter Address..">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-currency">
+                                        Clinic Fee <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-currency" value="@Model.Clinic_Charge" name="ClinicFee" placeholder="0.00">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-email">
+                                        Clinic Day-Timing <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-email" name="Clinic_Timing" placeholder="Ex: Mon 9:30 Am - 10:30 Am, Fri 11:00 Am - 2:00 PM">
+                                    </div>
+                                </div>
+
+                                <input type="hidden" value="1" name="Doctor_Availability" />
+                                <input type="hidden" value="@Model.DoctorName" name="DoctorName" />
+                                <input type="hidden" value="@Model.DoctorID" name="DoctorID" />
+                                <input type="hidden" value="@Model.Specialization" name="DoctorSpeciality" />
+                                <hr />
+
+                                <div class="form-group row">
+                                    <div class="col-lg-8 ml-auto">
+                                        <button type="submit" class="btn btn-primary">Submit Form</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
+
+
+

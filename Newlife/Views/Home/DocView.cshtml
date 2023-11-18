@@ -1,0 +1,216 @@
+﻿@using Newlife.Models
+@model Newlife.Models.DoctorDataViewModel
+@{
+    ViewBag.Title = Model.Doctorinfo.DoctorName;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+</head>
+
+
+<section class="text-gray-600 body-font overflow-hidden">
+    <div class="container px-5 py-24 mx-auto">
+        <div class="lg:w-4/5 mx-auto flex flex-wrap">
+            <div class="lg:w-1/2 w-full lg:pr-10 lg:py-6 mb-6 lg:mb-0">
+                <h2 class="text-sm title-font text-gray-500 tracking-widest">@Model.Doctorinfo.Specialization</h2>
+                <h1 class="text-gray-900 text-3xl title-font font-medium mb-4">Book Clinic Appointment with Dr. @Model.Doctorinfo.DoctorName </h1>
+                <div class="flex mb-4">
+                    <a id="get-help-link" class="flex-grow text-indigo-500 border-b-2 border-indigo-500 py-2 text-lg px-1" style="cursor:pointer">Get Help</a>
+                    <a id="reviews-link" class="flex-grow border-b-2 border-gray-300 py-2 text-lg px-1" style="cursor:pointer">Reviews</a>
+                </div>
+
+                <section id="get-help-section" class="section">
+                    @foreach (var item in Model.cliniclist)
+                    {
+                       
+                        <div class="flex-grow pl-6">
+                            <h2 class="text-gray-900 text-lg title-font font-medium mb-2"> @Html.ActionLink(@item.ClinicName, "ClinicView", new { id = item.Id })</h2>
+                            <p class="leading-relaxed text-base">@item.Clinic_Address , <b>@item.Location</b></p>
+                            <p>₹ @item.ClinicFee</p>
+                            <button type="button" class="btn  btn-success btn-outline-success">
+                                @Html.ActionLink("See More Details", "ClinicView", new { id = item.Id })
+                            </button>
+                        </div><br />
+                    }
+                </section>
+
+                <section id="reviews-section" class="section" style="display:none;">
+                    <div class="flex-grow pl-6">
+                        <h2 class="text-gray-900 text-lg title-font font-medium mb-2">Submit a review for Dr.@Model.Doctorinfo.DoctorName</h2>
+                        <p class="leading-relaxed text-base">Your feedback matters!</p>
+                        <button type="button" class="mt-3 text-white-500 inline-flex items-center btn btn-info" data-toggle="modal" data-target="#reviewmodal">
+                            Write Review
+                        </button>
+                    </div><br />
+                    <div class="flex-grow pl-6">
+                        <h2 class="text-gray-900 text-lg title-font font-medium mb-2">All Reviews :</h2>
+                          @foreach (var item in Model.reviewlists)
+                          {
+                        <div>
+                            <p class="leading-relaxed text-base" style="color:brown"><b>@item.PatientName</b></p>
+                            <p><b>Health Cause :</b> @item.Health_Cause</p>
+                            <p style="font-weight:600;">@item.Doctor_Review</p><br />
+                        </div>
+                          }
+                    </div>
+
+                </section>
+            </div>
+            <div class="p-4 lg:w-1/2 md:w-full">
+                <div class="flex border-2 rounded-lg border-gray-200 border-opacity-50 p-8 sm:flex-row flex-col">
+                    <div class="w-16 h-16 sm:mr-8 sm:mb-0 mb-4 inline-flex items-center justify-center rounded-full bg-indigo-100 text-indigo-500 flex-shrink-0">
+                        <img src="~/@Model.Doctorinfo.ProfilePicture" width="50px" height="70px" />
+                    </div>
+                    <div class="flex-grow">
+                        <h2 class="text-gray-900 text-lg title-font font-medium mb-3">@Model.Doctorinfo.DoctorName</h2>
+                        <p><b>Contact : </b>@Model.Doctorinfo.Phone</p>
+                        <p><b>Experience : </b>@Model.Doctorinfo.Experience  Years Exp.</p>
+                        <p><b>Bio : </b>@Model.Doctorinfo.Bio</p>
+                        <p class="leading-relaxed text-base"><b>Education : </b>@Model.Doctorinfo.Education</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="modal fade" id="reviewmodal" tabindex="-1" role="dialog" aria-labelledby="googleSignupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="googleSignupModalLabel">Submit Feedback for Dr. @Model.Doctorinfo.DoctorName</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form action="/Home/DoctorReview" method="post">
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label" for="val-username">
+                            Patient Name <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="PatientName" placeholder="Enter Name" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label" for="val-username">
+                            For which health problem did you visit? <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-lg-6">
+                            <select class="form-control" name="Clinic_Location">
+                                @foreach (var item in Model.cliniclist)
+                                {
+                                    <option value="@item.ClinicName">@item.ClinicName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label" for="val-username">
+                            For which health problem did you visit? <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-lg-6">
+                            <input type="text" class="form-control" name="Health_Cause" placeholder="Enter health cause" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label class="col-lg-4 col-form-label" for="val-username">
+                            Tell us about you experience with Dr. @Model.Doctorinfo.DoctorName <span class="text-danger">*</span>
+                        </label>
+                        <div class="col-lg-6">
+                            <textarea type="text" class="form-control" name="Doctor_Review" required></textarea>
+                        </div>
+                    </div>
+                    <input type="hidden" name="DoctorName" value="@Model.Doctorinfo.DoctorName" />
+                    <input type="hidden" name="DoctorID" value="@Model.Doctorinfo.DoctorID" />
+                    <div class="form-group row">
+                        <div class="col-lg-8 ml-auto">
+                            <button type="submit" class="btn btn-primary">Submit Review</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+    // Get references to the links and sections
+    const getHelpLink = document.getElementById("get-help-link");
+    const reviewsLink = document.getElementById("reviews-link");
+    const getHelpSection = document.getElementById("get-help-section");
+    const reviewsSection = document.getElementById("reviews-section");
+
+    // Add event listener to the "Get Help" link
+    getHelpLink.addEventListener("click", function () {
+        // Show the "Get Help" section
+        getHelpSection.style.display = "block";
+        // Hide the "Reviews" section
+        reviewsSection.style.display = "none";
+        // Add active class to the "Get Help" link
+        getHelpLink.classList.add("active");
+        // Remove active class from the "Reviews" link
+        reviewsLink.classList.remove("active");
+        reviewsLink.classList.remove('border-indigo-500');
+        getHelpLink.classList.add('border-indigo-500');
+    });
+
+    // Add event listener to the "Reviews" link
+    reviewsLink.addEventListener("click", function () {
+        // Show the "Reviews" section
+        reviewsSection.style.display = "block";
+        // Hide the "Get Help" section
+        getHelpSection.style.display = "none";
+        // Add active class to the "Reviews" link
+        reviewsLink.classList.add("active");
+        // Remove active class from the "Get Help" link
+        getHelpLink.classList.remove("active");
+        reviewsLink.classList.add('border-indigo-500');
+        getHelpLink.classList.remove('border-indigo-500');
+    });
+
+
+</script>
+<script>    
+
+    function getClinicInfo() {
+        var id = $('#clinicid').val();
+        $.ajax({
+            url: '/Home/Getclinicinfosbyid?id=' + id,
+            type: 'GET',
+           // Replace 1 with the actual ID
+            success: function (response) {
+                document.getElementById('loc').value = response.Location;
+                document.getElementById('clinicnames').value = response.ClinicName;
+                var select = $('#Date');
+                select.empty(); // Remove any existing options
+                $.each(response.ClinicDates, function (index, date) {
+                    var option = $('<option>').attr('value', date).text(date);
+                    select.append(option);
+                });
+                // Set the button text and disabled status based on the response values
+                var buttonText = response.ButtonTexts;
+                var buttonDisabled = response.ButtonDisables;
+                var bookButton = $('button[type="submit"]');
+                bookButton.text(buttonText);
+                bookButton.prop('disabled', buttonDisabled);
+                console.log(response.ClinicDates);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.error(textStatus + ': ' + errorThrown); // Log the error to the console
+            }
+        });
+    }
+
+</script>

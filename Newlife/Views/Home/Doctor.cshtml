@@ -1,0 +1,154 @@
+﻿@using Newlife.Models
+@model Newlife.Models.DoctorDataViewModel
+@{
+    ViewBag.Title = "Doctor";
+
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.0.2/tailwind.min.css">
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css'>
+
+</head>
+
+<!-- doctor section start -->
+<div class="doctor_section layout_padding">
+    <div class="container">
+        @{
+            var usersInCookie = Request.Cookies["UserInfo"];
+            if (usersInCookie == null)
+            {
+
+                <div class="row">
+                    <div class="col-md-6 padding_top0">
+                        <h4 class="about_text">Best Laboratory</h4>
+                        <h1 class="highest_text">Tests Available</h1>
+                        <p class="lorem_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur </p>
+                        <div class="read_main">
+                            <div class="read_bt"><button type="button" class="btn btn-block btn-success" data-toggle="modal" data-target="#googleSignupModal">Get Appointment</button></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="image_4"><img src="~/Content/MainSite/images/img-4.png"></div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                if (Model != null)
+                {
+
+                    <div class="row">
+                        <div class="col-md-8 padding_top0">
+                            <h4 class="highest_text">Stay at Home. Consult Doctors Online. #IndiaFightsCorona. </h4>
+                            <form action="@Url.Action("Doctor","Home")" method="get">
+                                <div class="form-group row">
+                                    <div class="col-lg-4">
+                                        <input class="form-control" type="text" placeholder="Search by any keyword" name="searchstring">
+                                    </div>
+                                    <div class="col-lg-4">
+                                        @Html.DropDownList("searchbylocation", ViewBag.LocationSelectList as SelectList, "Select Location", new { @class = "form-control" })
+                                    </div>
+                                    <div class="col-lg-4">
+                                        @Html.DropDownList("searchbyspeciality", ViewBag.SpecializationDropList as SelectList, "Select Speciality", new { @class = "form-control" })
+
+                                    </div>
+                                </div>
+                                <div class="main_bt"><button type="submit" class="btn btn-outline-dark">Search</button></div>
+                            </form>
+                        </div>
+                    </div><br />
+                    <hr />
+                }
+                else
+                {
+                    <div class="row">
+                        <div class="col-md-6 padding_top0">
+                            <h4 class="about_text">Best Laboratory</h4>
+                            <h1 class="highest_text">Tests Available</h1>
+                            <p class="lorem_text">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur </p>
+                            <div class="read_main">
+                                <div class="read_bt"><a href="@Url.Action("Doctor","Home")">Get Appointment</a></div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="image_4"><img src="~/Content/MainSite/images/img-4.png"></div>
+                        </div>
+                    </div>
+                }
+                <section class="text-gray-600 body-font relative">
+                    <div class="container px-5 py-24 mx-auto">
+                        <div class="flex flex-wrap -m-4">
+                            @if (Model != null)
+                            {
+                                if (Model.docdetails.Any())
+                                {
+                                    foreach (var item in Model.docdetails)
+                                    {
+                                        <div class="p-4 md:w-1/3">
+                                            <div class="h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden">
+                                                <img class="lg:h-48 md:h-36" style="padding-left:65px" src="~/@item.ProfilePicture" alt="blog">
+                                                <div class="p-6">
+                                                    <h2 class="tracking-widest text-xs title-font font-medium text-gray-400 mb-1">@item.Specialization</h2>
+                                                    <h1 class="title-font text-lg font-medium text-gray-900 mb-3">@item.DoctorName</h1>
+                                                    <p class="leading-relaxed mb-3">@item.Education</p>
+                                                    <p class="leading-relaxed mb-3">Experience :@item.Experience</p>
+                                                    <div class="flex items-center flex-wrap ">
+
+                                                        <a class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0">
+                                                            Call Doctor<span>&#x260E;</span> <!-- This will display ☎ symbol -->
+                                                        </a>
+
+                                                        <button class="text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0" style="padding-left:25px">
+                                                            @Html.ActionLink("See More Details", "DocView", new { id = item.DoctorID })
+                                                            <svg class="w-4 h-4 ml-2" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                                                <path d="M5 12h14"></path>
+                                                                <path d="M12 5l7 7-7 7"></path>
+                                                            </svg>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </section>
+
+            }
+
+        }
+    </div>
+</div>
+<!-- doctor section end -->
+<div class="modal fade" id="googleSignupModal" tabindex="-1" role="dialog" aria-labelledby="googleSignupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="googleSignupModalLabel">Google Sign Up</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <h3 class="text-center">Firstly, SignUp with us to access our resources</h3>
+
+                <a href="@Url.Action("SignUp", "GoogleAuthentication")" class="btn btn-success btn-block"><i class="fa fa-google" aria-hidden="true"></i> Sign in with <b>Google</b></a>
+                <br /><p>Or</p>
+                <br />
+                <a href="@Url.Action("SignIn", "GitHub")" class="btn btn-dark btn-block"><i class="fa fa-github" aria-hidden="true"></i> Sign in with <b>Github</b></a>
+                @*@Html.ActionLink("Login with GitHub", "SignIn", "GitHub")*@
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+

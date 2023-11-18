@@ -1,0 +1,108 @@
+﻿@using Newlife.Models
+@model Dictionary<string, List<string>>
+@{
+    ViewBag.Title = "AddAppointmentSlot";
+    Layout = "~/Views/Shared/DoctorLayout.cshtml";
+}
+
+
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="@Url.Action("Index", "Doctor")">Home</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+    @{
+        var docInCookie = Request.Cookies["DocLogInfo"];
+        string id = docInCookie["DoctorID"].ToString();
+        NewlifeDBContext db = new NewlifeDBContext();
+        var getclinicname = db.Clinicinfo.Where(x => x.DoctorID == id).ToList();
+
+    }
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-validation">
+                            @using (Html.BeginForm("AddAppointmentSlot", "Doctor", FormMethod.Get))
+                            {
+                                <div class="form-group">
+                                    <b>Choose a month to add appointment details :-</b>
+                                    @Html.DropDownList("Month", new SelectList(Model.Keys), "Select a month", new { onchange = "this.form.submit();" })
+                                </div>
+
+                                if (Request.QueryString["Month"] != null && Model.ContainsKey(Request.QueryString["Month"]))
+                                {
+                                    var selectedMonth = Request.QueryString["Month"];
+
+                                    foreach (var date in Model[selectedMonth])
+                                    {
+                                        <br />
+                                        <p>@date</p>
+
+                                        <form class="form-valide" action="/Doctor/AddAppointmentSlot" method="post">
+
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="val-username">
+                                                    Clinic Name <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    <select name="ClinicName" class="form-control">
+                                                        @foreach (var item in getclinicname)
+                                                        {
+                                                            <option value="@item.ClinicName">@item.ClinicName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="val-email">
+                                                    Timing <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" name="Time" placeholder="Ex: 9:30 Am - 11:00 Am">
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
+                                                <label class="col-lg-4 col-form-label" for="val-email">
+                                                    No of Persons <span class="text-danger">*</span>
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    <input type="text" class="form-control" id="val-email" name="AvailableSlots" placeholder="Ex : 10">
+                                                </div>
+                                            </div>
+                                            <input type="hidden" value="1" name="IsAvailable" />
+                                            <input type="hidden" value="@date" name="Date" />
+                                            <hr />
+
+                                            <div class="form-group row">
+                                                <div class="col-lg-8 ml-auto">
+                                                    <button type="submit" class="btn btn-primary">Add Slot</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+
+<script>
+    // Set the selected month in the dropdown list
+    var selectedMonth = "@Request.QueryString["Month"]";
+    if (selectedMonth) {
+        document.getElementById("Month").value = selectedMonth;
+    }
+</script>

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<Newlife.Models.DoctorDetails>
+@{
+    ViewBag.Title = "DoctorList";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<!--**********************************
+           Content body start
+       ***********************************-->
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="@Url.Action("Index","Admin")">Home</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Doctor's Table</h4>
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered zero-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>DocID</th>
+                                        <th>Name</th>
+                                        <th>Specialization</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
+                                        <th>Image</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if (Model != null)
+                                    {
+                                        foreach (var item in Model)
+                                        {
+                                        <tr>
+                                            <td>@item.DoctorID</td>
+                                            <td>@item.DoctorName</td>
+                                            <td>@item.Specialization</td>
+                                            <td>@item.Phone</td>
+                                            @if (item.Active == "1") {<td><i class="fa fa-circle-o text-success  mr-2"></i>Active</td> } else { <td><i class="fa fa-circle-o text-warning  mr-2"></i> InActive</td>}
+                                            <td><img src="~/@item.ProfilePicture" width="50px" height="50px"/></td>
+                                            <td>
+                                                <button class="btn btn-block btn-success"><a href="@Url.Action("UpdateDoctorDetails", new { id = item.Id })" style="color: white;">Edit</a></button>
+                                                <button class="btn btn-block btn-danger"><a href="@Url.Action("DeleteDoc", new { id = item.Id })" style="color: white;">Delete</a></button>
+                                            </td>
+                                        </tr>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <tr>Empty List !</tr>
+                                    }
+                                </tbody>
+                                <tfoot>
+                                   
+                                    <tr>
+                                        <th>DocID</th>
+                                        <th>Name</th>
+                                        <th>Specialization</th>
+                                        <th>Phone</th>
+                                        <th>Status</th>
+                                        <th>Image</th>
+                                        <th>Action</th>
+                                    </tr>
+                                 
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->

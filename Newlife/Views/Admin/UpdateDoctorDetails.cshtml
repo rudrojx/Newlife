@@ -1,0 +1,179 @@
+﻿@model Newlife.Models.DoctorDetails
+@{
+    ViewBag.Title = "Update Doctor Details";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="@Url.Action("Index", "Admin")">Home</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-validation">
+                            <form class="form-valide" action="/Admin/UpdateDoctorDetails" method="post" enctype="multipart/form-data">
+
+                                <input type="hidden" name="Id" value="@Model.Id" />
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-username">
+                                        Doctor Name <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="docname" value="@Model.DoctorName" name="DoctorName" placeholder="Enter a name..">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-username">
+                                        Specialization <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-username" value="@Model.Specialization" name="Specialization" placeholder="Enter a Specialization">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-email">
+                                        Email <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="email" class="form-control" id="val-email" value="@Model.Email" name="Email" placeholder="Your valid email..">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                        Bio <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <textarea class="form-control" id="val-suggestions" name="Bio" rows="4" placeholder="Tell about yourself..">@Model.Bio</textarea>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                        Location <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select name="Location" id="location" class="form-control">
+                                            <option value="@Model.Location">@Model.Location</option>
+                                            <option value="Hooghly Rishra Serampore">Hooghly,Rishra,Serampore</option>
+                                            <option value="Rishra Konnagar Uttarpara">Rishra, Konnagar, Uttarpara</option>
+                                            <option value="Serampore Hooghly Konnagar">Serampore, Hooghly, Konnagar</option>
+                                            <option value="Konnagar Hooghly Rishra Uttarpara">Konnagar, Hooghly, Rishra, Uttarpara</option>
+                                            <option value="Uttarpara Serampore Rishra">Uttarpara, Serampore, Rishra</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                        Education <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <textarea class="form-control" id="val-suggestions" name="Education" rows="3">@Model.Education</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-currency">
+                                        Clinic Fee <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-currency" value="@Model.Clinic_Charge" name="Clinic_Charge" placeholder="0.00">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-phoneus">
+                                        Phone (+91) <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-phoneus" value="@Model.Phone" name="Phone" placeholder="000-0000-000">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-digits">
+                                        Experience <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-digits" value="@Model.Experience" name="Experience" placeholder="5">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-digits">
+                                        Profile Picture <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="file" class="form-control" name="file" onchange="document.getElementById('blah').src = window.URL.createObjectURL(this.files[0])">
+                                    </div>
+                                    <img id="blah" width="100" height="70" src="~/@Model.ProfilePicture" />
+                                    @ViewBag.Message
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-digits">
+                                        Doctor Status <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select name="Active" class="form-control">
+                                            @{
+                                                if (Model.Active == "1")
+                                                {
+                                                    <option value="@Model.Active">Active</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@Model.Active">Inactive</option>
+                                                }
+                                            }
+                                            <option value="1">Active</option>
+                                            <option value="0">Inactive</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <hr />
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-username">
+                                        Doctor ID <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="docid" value="@Model.DoctorID" name="DoctorID">
+                                    </div>
+
+                                </div>
+
+
+                                <hr />
+
+                                <div class="form-group row">
+                                    <div class="col-lg-8 ml-auto">
+                                        <button type="submit" class="btn btn-primary">Update Form</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
+
+

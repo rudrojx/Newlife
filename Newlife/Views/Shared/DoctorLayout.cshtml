@@ -1,0 +1,215 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>@ViewBag.Title - Newlife</title>
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href=" ~/Content/AdminSite/images/favicon.png">
+
+    <!-- Custom Stylesheet -->
+    <link href=" ~/Content/AdminSite/css/style.css" rel="stylesheet">
+    <link href="~/Conetent/AdminSite/plugins/tables/css/datatable/dataTables.bootstrap4.min.css" rel="stylesheet">
+    <script src="~/Scripts/alertify.min.js"></script>
+    <link rel="stylesheet" href="~/Content/alertifyjs/alertify.min.css" />
+
+</head>
+
+<body>
+    @if (TempData["Message"] != null)
+    {
+        if (TempData["Type"].Equals("success"))
+        {
+            <script>
+        alertify.success('<span style="color: white;">@TempData["Message"]</span>');
+            </script>
+        }
+        else if (TempData["Type"].Equals("error"))
+        {
+            <script>
+            alertify.error('<span style="color: white;">@TempData["Message"]</span>');
+            </script>
+        }
+    }
+    <!--*******************
+        Preloader start
+    ********************-->
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
+    <!--*******************
+        Preloader end
+    ********************-->
+    <!--**********************************
+        Main wrapper start
+    ***********************************-->
+    <div id="main-wrapper">
+
+        <!--**********************************
+            Nav header start
+        ***********************************-->
+        <div class="nav-header">
+            <div class="brand-logo">
+                <a href="">
+                    <b class="logo-abbr" style="color:antiquewhite;">ND</b>
+                    <span class="logo-compact" style="color:antiquewhite;">Newlife Dashboard</span>
+                    <span class="brand-title" style="color:antiquewhite;">
+                        Doctor Dashboard
+                    </span>
+                </a>
+            </div>
+        </div>
+        <!--**********************************
+            Nav header end
+        ***********************************-->
+        <!--**********************************
+            Header start
+        ***********************************-->
+        <div class="header">
+            <div class="header-content clearfix">
+
+                <div class="nav-control">
+                    <div class="hamburger">
+                        <span class="toggle-icon"><i class="icon-menu"></i></span>
+                    </div>
+                </div>
+
+                <div class="header-right">
+                    <ul class="clearfix">
+                        @{
+                            var usersInCookie = Request.Cookies["DocLogInfo"];
+                        }
+                        <li class="icons dropdown">
+                            <div class="user-img c-pointer position-relative" data-toggle="dropdown">
+
+                                <h5>Dr. @usersInCookie["DoctorName"].ToString()</h5>
+                            </div>
+                            <div class="drop-down dropdown-profile animated fadeIn dropdown-menu">
+                                <div class="dropdown-content-body">
+                                    <ul>
+                                        <li>
+                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void()">
+                                                <i class="icon-envelope-open"></i> <span>Inbox</span> <div class="badge gradient-3 badge-pill gradient-1">3</div>
+                                            </a>
+                                        </li>
+
+                                        <li><a href="@Url.Action("LogoutDoctor","Doctor")"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!--**********************************
+            Header end ti-comment-alt
+        ***********************************-->
+        <!--**********************************
+            Sidebar start
+        ***********************************-->
+        <div class="nk-sidebar">
+            <div class="nk-nav-scroll">
+                <ul class="metismenu" id="menu">
+                    <li class="nav-label">Dashboard</li>
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-speedometer menu-icon"></i><span class="nav-text">Dashboard</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="@Url.Action("Index","Doctor")">Home</a></li>
+                            <!-- <li><a href="./index-2.html">Home 2</a></li> -->
+                        </ul>
+                    </li>
+
+                    <li class="mega-menu mega-menu-sm">
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-globe-alt menu-icon"></i><span class="nav-text">Doctors</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="@Url.Action("AddClinic","Doctor")">Add Clinic</a></li>
+                            <li><a href="@Url.Action("ClinicList","Doctor")">Clinic List</a></li>
+
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-notebook menu-icon"></i><span class="nav-text">Clinic Appointment</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="@Url.Action("AppointmentBookingList","Doctor")">All Appointment List</a></li>                            
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-envelope menu-icon"></i> <span class="nav-text">Email</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="./email-inbox.html">Inbox</a></li>
+                            <li><a href="./email-read.html">Read</a></li>
+                            <li><a href="./email-compose.html">Compose</a></li>
+                        </ul>
+                    </li>
+
+                    <li>
+                        <a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                            <i class="icon-notebook menu-icon"></i><span class="nav-text">Appointment Details</span>
+                        </a>
+                        <ul aria-expanded="false">
+                            <li><a href="@Url.Action("AddAppointmentSlot","Doctor")">Add Appointment Slot</a></li>
+                            <li><a href="@Url.Action("AppointmentList","Doctor")">Appointment Details List</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <!--**********************************
+            Sidebar end
+        ***********************************-->
+
+        @RenderBody()
+
+
+        <!--**********************************
+            Footer start
+        ***********************************-->
+        <div class="footer">
+            <div class="copyright">
+                <p>Copyright &copy; Designed & Developed by Rudro 2023</p>
+            </div>
+        </div>
+        <!--**********************************
+            Footer end
+        ***********************************-->
+    </div>
+    <!--**********************************
+        Main wrapper end
+    ***********************************-->
+    <!--**********************************
+        Scripts
+    ***********************************-->
+    <script src=" ~/Content/AdminSite/plugins/common/common.min.js"></script>
+    <script src=" ~/Content/AdminSite/js/custom.min.js"></script>
+    <script src=" ~/Content/AdminSite/js/settings.js"></script>
+    <script src=" ~/Content/AdminSite/js/gleek.js"></script>
+    <script src=" ~/Content/AdminSite/js/styleSwitcher.js"></script>
+
+    <script src="~/Content/AdminSite/plugins/tables/js/jquery.dataTables.min.js"></script>
+    <script src="~/Content/AdminSite/plugins/tables/js/datatable/dataTables.bootstrap4.min.js"></script>
+    <script src="~/Content/AdminSite/plugins/tables/js/datatable-init/datatable-basic.min.js"></script>
+
+
+</body>
+</html>

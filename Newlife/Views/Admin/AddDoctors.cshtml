@@ -1,0 +1,196 @@
+﻿
+@{
+    ViewBag.Title = "AddDoctors";
+    Layout = "~/Views/Shared/AdminLayout.cshtml";
+}
+
+<div class="content-body">
+
+    <div class="row page-titles mx-0">
+        <div class="col p-md-0">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="javascript:void(0)">Dashboard</a></li>
+                <li class="breadcrumb-item active"><a href="@Url.Action("Index","Admin")">Home</a></li>
+            </ol>
+        </div>
+    </div>
+    <!-- row -->
+
+    <div class="container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-validation">
+                            <form class="form-valide" action="/Admin/AddDoctors" method="post" enctype="multipart/form-data">
+
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-username">
+                                        Doctor Name <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="docname" name="DoctorName" placeholder="Enter a name..">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-username">
+                                        Specialization <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-username" name="Specialization" placeholder="Enter a Specialization">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-email">
+                                        Email <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="email" class="form-control" id="val-email" name="Email" placeholder="Your valid email..">
+                                    </div>
+                                </div>
+
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                        Bio <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <textarea class="form-control" id="val-suggestions" name="Bio" rows="4" placeholder="Tell about yourself.."></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                        Location <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <select name="Location" id="location" class="form-control">
+                                            <option value="Hooghly Rishra">Hooghly,Rishra</option>
+                                            <option value="Rishra Konnagar Uttarpara">Rishra, Konnagar, Uttarpara</option>
+                                            <option value="Serampore Konnagar">Serampore, Konnagar</option>
+                                            <option value="Konnagar Hooghly  Uttarpara">Konnagar, Hooghly, Uttarpara</option>
+                                            <option value=" Serampore Rishra"> Serampore, Rishra</option>
+                                            <option value="Bandel Chandanagar ">Bandel, Chandanagar</option>
+                                            <option value="Hooghly Bandel Baidyabati">Hooghly, Bandel ,Baidyabati</option>
+                                            <option value="Bandel Serampore Chuchura">Bandel Serampore Chuchura</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-suggestions">
+                                        Education <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <textarea class="form-control" id="val-suggestions" name="Education" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-currency">
+                                        Clinic Fee <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-currency" name="Clinic_Charge" placeholder="0.00">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-phoneus">
+                                        Phone (+91) <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-phoneus" name="Phone" placeholder="000-0000-000">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-digits">
+                                        Experience <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="val-digits" name="Experience" placeholder="5">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-digits">
+                                        Profile Picture <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="file" class="form-control" name="file">
+                                    </div>
+                                    @ViewBag.Message
+                                </div>
+                                <input type="hidden" value="1" name="Active" />
+                                <hr />
+
+                                <div class="form-group row">
+                                    <label class="col-lg-4 col-form-label" for="val-username">
+                                        Doctor ID <span class="text-danger">*</span>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <input type="text" class="form-control" id="docid" name="DoctorID">
+                                    </div>
+                                    <button type="button" id="generate-idpass" class="btn btn-info">Get ID</button>
+                                </div>
+
+
+                                <hr />
+
+                                <div class="form-group row">
+                                    <div class="col-lg-8 ml-auto">
+                                        <button type="submit" class="btn btn-primary">Submit Form</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- #/ container -->
+</div>
+<!--**********************************
+    Content body end
+***********************************-->
+<script>
+    document.getElementById("generate-idpass").addEventListener("click", function () {
+        var getname = document.getElementById("docname").value;
+        var trimmedName = getname.trim();
+        var firstName = trimmedName.split(" ")[0];
+        var idCode = generateid();
+        document.getElementById("docid").value = firstName + idCode;
+
+    });
+
+    document.getElementById("generate-pass").addEventListener("click", function () {
+        var passCode = generatepass();
+        document.getElementById("docpass").value = passCode;
+    });
+
+    function generatepass() {
+        var code = "";
+        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        for (var i = 0; i < 10; i++) {
+            code += possible.charAt(Math.floor(Math.random() * possible.length));
+        }
+        return code;
+    }
+
+    function generateid() {
+        var code = "";
+        var companycoupon = "0123456789";
+        for (var i = 0; i < 4; i++) {
+            code += companycoupon.charAt(Math.floor(Math.random() * companycoupon.length));
+        }
+
+        return code;
+    }
+
+
+
+</script>
