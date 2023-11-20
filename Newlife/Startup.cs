@@ -27,8 +27,8 @@ namespace Newlife
 
             app.UseGitHubAuthentication(new GitHubAuthenticationOptions
             {
-                ClientId = "",
-                ClientSecret = "",
+                ClientId = "546564654546",
+                ClientSecret = "hdryhrtyrt",
                 Provider = new GitHubAuthenticationProvider
                 {
                     OnAuthenticated = context =>

@@ -41,9 +41,29 @@ namespace Newlife.Controllers
         {
             var docInCookie = Request.Cookies["DocLogInfo"];
             string docname = docInCookie["DoctorName"].ToString();
-            var getappointmentlist = db.Appointmenlists.Where(x => x.DoctorName == docname).ToList();
+            var getappointmentlist = db.Appointmenlists.Where(x => x.DoctorName == docname).OrderByDescending(x => x.Date).ToList();
+            var getdates = db.Appointmenlists.Where(x => x.DoctorName == docname).OrderByDescending(x => x.Date).GroupBy(x => x.Date).Select(group => group.FirstOrDefault()).ToList();
+            ViewBag.Dates = getdates;
             return View(getappointmentlist);
         }
+
+        public ActionResult GetAppointmentsByDate(string date)
+        {
+            var docInCookie = Request.Cookies["DocLogInfo"];
+            string docname = docInCookie["DoctorName"].ToString();           
+            if (date !="")
+            {
+                var appointments = db.Appointmenlists
+                    .Where(x => x.DoctorName == docname && x.Date == date)
+                    .OrderBy(x => x.Time)
+                    .ToList();
+
+                return Json(appointments, JsonRequestBehavior.AllowGet);
+            }
+
+            return Json(new List<AppointmentDetails>(), JsonRequestBehavior.AllowGet);
+        }
+
 
         [HttpGet]
         public ActionResult AddAppointmentSlot()
